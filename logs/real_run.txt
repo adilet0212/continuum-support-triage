@@ -1,0 +1,229 @@
+2026-08-17 16:48:13 [32mINFO    [0m continuum.llm.callbacks - Observability not configured or disabled
+2026-08-17 16:48:13 [32mINFO    [0m continuum.agent.runner - Dispatching workflow agent 'triage' to its execute() entry point
+2026-08-17 16:48:13 [32mINFO    [0m continuum.agent.execution.message_builder - 🔍 AGENT MEMORY CONFIG: search_memories=True, store_memories=True, search_scope=MemoryScope.USER, store_scope=MemoryScope.USER, search_limit=5
+2026-08-17 16:48:14 [32mINFO    [0m continuum.agent.execution.message_builder - ===== FINAL PROMPT [classifier] =====
+[system] You triage inbound customer support tickets for a SaaS product. Given a ticket title and description, assign exactly one category and a confidence score.
+
+Classify on what the customer is asking you to do, not on which system or feature they happen to mention. A ticket can name an API, a dashboard, or a credit card without that being the subject of the request.
+
+When two categories are genuinely defensible, choose the one matching the customer's goal and lower your confidence to reflect the ambiguity. Confidence is a real signal, not a formality: tickets below 0.7 are routed to a human rather than answered automatically. Reserve values above 0.9 for tickets that fit one category unambiguously, and use 0.5-0.7 when the ticket is vague, empty, or could reasonably be read two ways.
+[user] Cannot access my account
+
+I've been trying to log in for the past hour but keep getting 'invalid password' even though I'm sure it's correct.
+========================
+2026-08-17 16:48:14 [32mINFO    [0m continuum.llm.client - JSON mode active: schema for model gpt-4o-mini
+2026-08-17 16:48:18 [32mINFO    [0m continuum.agent.execution.message_builder - 🔍 AGENT MEMORY CONFIG: search_memories=True, store_memories=True, search_scope=MemoryScope.USER, store_scope=MemoryScope.USER, search_limit=5
+2026-08-17 16:48:18 [32mINFO    [0m continuum.agent.execution.message_builder - ===== FINAL PROMPT [priority] =====
+[system] You assign urgency to inbound customer support tickets for a SaaS product. Given a ticket title and description, assign exactly one priority level.
+
+Judge urgency by business impact and time sensitivity: what is broken, how many people it blocks, and whether money or data is at risk right now.
+
+Tone is not evidence. Words like URGENT, ASAP, or immediately raise priority only when the ticket also describes something that is actually broken or time-critical. A calm report of a production outage outranks an emphatic request for a routine answer. Equally, do not discount a serious problem because the customer is polite about it.
+
+If the ticket describes no problem and asks for nothing, it is not urgent.
+[user] Cannot access my account
+
+I've been trying to log in for the past hour but keep getting 'invalid password' even though I'm sure it's correct.
+========================
+2026-08-17 16:48:18 [32mINFO    [0m continuum.llm.client - JSON mode active: schema for model gpt-4o-mini
+INFO:httpx2:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-17 16:48:21 [32mINFO    [0m continuum.agent.execution.executor - ✅ structured_output ready for agent classifier (ClassificationOutput)
+INFO:httpx2:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-17 16:48:21 [32mINFO    [0m continuum.agent.execution.executor - ✅ structured_output ready for agent priority (PriorityOutput)
+
+--- ticket 1: escalated ---
+  received     ticket received
+  classified   classifier output validated
+  prioritized  priority output validated
+  escalated    not in the auto-resolvable set
+  -> account / medium (confidence 0.9)
+2026-08-17 16:48:21 [32mINFO    [0m continuum.agent.runner - Dispatching workflow agent 'triage' to its execute() entry point
+2026-08-17 16:48:21 [32mINFO    [0m continuum.agent.execution.message_builder - 🔍 AGENT MEMORY CONFIG: search_memories=True, store_memories=True, search_scope=MemoryScope.USER, store_scope=MemoryScope.USER, search_limit=5
+2026-08-17 16:48:21 [32mINFO    [0m continuum.agent.execution.message_builder - ===== FINAL PROMPT [classifier] =====
+[system] You triage inbound customer support tickets for a SaaS product. Given a ticket title and description, assign exactly one category and a confidence score.
+
+Classify on what the customer is asking you to do, not on which system or feature they happen to mention. A ticket can name an API, a dashboard, or a credit card without that being the subject of the request.
+
+When two categories are genuinely defensible, choose the one matching the customer's goal and lower your confidence to reflect the ambiguity. Confidence is a real signal, not a formality: tickets below 0.7 are routed to a human rather than answered automatically. Reserve values above 0.9 for tickets that fit one category unambiguously, and use 0.5-0.7 when the ticket is vague, empty, or could reasonably be read two ways.
+[user] Charged twice this month
+
+My credit card shows two charges of $99.99 for this month. I should only be charged once. Please refund immediately.
+========================
+2026-08-17 16:48:21 [32mINFO    [0m continuum.llm.client - JSON mode active: schema for model gpt-4o-mini
+2026-08-17 16:48:21 [32mINFO    [0m continuum.agent.execution.message_builder - 🔍 AGENT MEMORY CONFIG: search_memories=True, store_memories=True, search_scope=MemoryScope.USER, store_scope=MemoryScope.USER, search_limit=5
+2026-08-17 16:48:21 [32mINFO    [0m continuum.agent.execution.message_builder - ===== FINAL PROMPT [priority] =====
+[system] You assign urgency to inbound customer support tickets for a SaaS product. Given a ticket title and description, assign exactly one priority level.
+
+Judge urgency by business impact and time sensitivity: what is broken, how many people it blocks, and whether money or data is at risk right now.
+
+Tone is not evidence. Words like URGENT, ASAP, or immediately raise priority only when the ticket also describes something that is actually broken or time-critical. A calm report of a production outage outranks an emphatic request for a routine answer. Equally, do not discount a serious problem because the customer is polite about it.
+
+If the ticket describes no problem and asks for nothing, it is not urgent.
+[user] Charged twice this month
+
+My credit card shows two charges of $99.99 for this month. I should only be charged once. Please refund immediately.
+========================
+2026-08-17 16:48:21 [32mINFO    [0m continuum.llm.client - JSON mode active: schema for model gpt-4o-mini
+INFO:httpx2:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-17 16:48:22 [32mINFO    [0m continuum.agent.execution.executor - ✅ structured_output ready for agent priority (PriorityOutput)
+INFO:httpx2:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-17 16:48:22 [32mINFO    [0m continuum.agent.execution.executor - ✅ structured_output ready for agent classifier (ClassificationOutput)
+
+--- ticket 2: escalated ---
+  received     ticket received
+  classified   classifier output validated
+  prioritized  priority output validated
+  escalated    not in the auto-resolvable set
+  -> billing / high (confidence 0.9)
+2026-08-17 16:48:22 [32mINFO    [0m continuum.agent.runner - Dispatching workflow agent 'triage' to its execute() entry point
+2026-08-17 16:48:22 [32mINFO    [0m continuum.agent.execution.message_builder - 🔍 AGENT MEMORY CONFIG: search_memories=True, store_memories=True, search_scope=MemoryScope.USER, store_scope=MemoryScope.USER, search_limit=5
+2026-08-17 16:48:22 [32mINFO    [0m continuum.agent.execution.message_builder - ===== FINAL PROMPT [classifier] =====
+[system] You triage inbound customer support tickets for a SaaS product. Given a ticket title and description, assign exactly one category and a confidence score.
+
+Classify on what the customer is asking you to do, not on which system or feature they happen to mention. A ticket can name an API, a dashboard, or a credit card without that being the subject of the request.
+
+When two categories are genuinely defensible, choose the one matching the customer's goal and lower your confidence to reflect the ambiguity. Confidence is a real signal, not a formality: tickets below 0.7 are routed to a human rather than answered automatically. Reserve values above 0.9 for tickets that fit one category unambiguously, and use 0.5-0.7 when the ticket is vague, empty, or could reasonably be read two ways.
+[user] API returning 500 errors
+
+Our production system is down. The /api/v2/users endpoint is returning 500 errors for the past 20 minutes. URGENT.
+========================
+2026-08-17 16:48:22 [32mINFO    [0m continuum.llm.client - JSON mode active: schema for model gpt-4o-mini
+2026-08-17 16:48:22 [32mINFO    [0m continuum.agent.execution.message_builder - 🔍 AGENT MEMORY CONFIG: search_memories=True, store_memories=True, search_scope=MemoryScope.USER, store_scope=MemoryScope.USER, search_limit=5
+2026-08-17 16:48:22 [32mINFO    [0m continuum.agent.execution.message_builder - ===== FINAL PROMPT [priority] =====
+[system] You assign urgency to inbound customer support tickets for a SaaS product. Given a ticket title and description, assign exactly one priority level.
+
+Judge urgency by business impact and time sensitivity: what is broken, how many people it blocks, and whether money or data is at risk right now.
+
+Tone is not evidence. Words like URGENT, ASAP, or immediately raise priority only when the ticket also describes something that is actually broken or time-critical. A calm report of a production outage outranks an emphatic request for a routine answer. Equally, do not discount a serious problem because the customer is polite about it.
+
+If the ticket describes no problem and asks for nothing, it is not urgent.
+[user] API returning 500 errors
+
+Our production system is down. The /api/v2/users endpoint is returning 500 errors for the past 20 minutes. URGENT.
+========================
+2026-08-17 16:48:22 [32mINFO    [0m continuum.llm.client - JSON mode active: schema for model gpt-4o-mini
+INFO:httpx2:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-17 16:48:23 [32mINFO    [0m continuum.agent.execution.executor - ✅ structured_output ready for agent classifier (ClassificationOutput)
+INFO:httpx2:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-17 16:48:24 [32mINFO    [0m continuum.agent.execution.executor - ✅ structured_output ready for agent priority (PriorityOutput)
+
+--- ticket 3: escalated ---
+  received     ticket received
+  classified   classifier output validated
+  prioritized  priority output validated
+  escalated    not in the auto-resolvable set
+  -> technical / critical (confidence 0.9)
+2026-08-17 16:48:24 [32mINFO    [0m continuum.agent.runner - Dispatching workflow agent 'triage' to its execute() entry point
+2026-08-17 16:48:24 [32mINFO    [0m continuum.agent.execution.message_builder - 🔍 AGENT MEMORY CONFIG: search_memories=True, store_memories=True, search_scope=MemoryScope.USER, store_scope=MemoryScope.USER, search_limit=5
+2026-08-17 16:48:24 [32mINFO    [0m continuum.agent.execution.message_builder - ===== FINAL PROMPT [classifier] =====
+[system] You triage inbound customer support tickets for a SaaS product. Given a ticket title and description, assign exactly one category and a confidence score.
+
+Classify on what the customer is asking you to do, not on which system or feature they happen to mention. A ticket can name an API, a dashboard, or a credit card without that being the subject of the request.
+
+When two categories are genuinely defensible, choose the one matching the customer's goal and lower your confidence to reflect the ambiguity. Confidence is a real signal, not a formality: tickets below 0.7 are routed to a human rather than answered automatically. Reserve values above 0.9 for tickets that fit one category unambiguously, and use 0.5-0.7 when the ticket is vague, empty, or could reasonably be read two ways.
+[user] How do I export my data?
+
+I need to download all my data for my records. Where can I find the export feature?
+========================
+2026-08-17 16:48:24 [32mINFO    [0m continuum.llm.client - JSON mode active: schema for model gpt-4o-mini
+2026-08-17 16:48:24 [32mINFO    [0m continuum.agent.execution.message_builder - 🔍 AGENT MEMORY CONFIG: search_memories=True, store_memories=True, search_scope=MemoryScope.USER, store_scope=MemoryScope.USER, search_limit=5
+2026-08-17 16:48:24 [32mINFO    [0m continuum.agent.execution.message_builder - ===== FINAL PROMPT [priority] =====
+[system] You assign urgency to inbound customer support tickets for a SaaS product. Given a ticket title and description, assign exactly one priority level.
+
+Judge urgency by business impact and time sensitivity: what is broken, how many people it blocks, and whether money or data is at risk right now.
+
+Tone is not evidence. Words like URGENT, ASAP, or immediately raise priority only when the ticket also describes something that is actually broken or time-critical. A calm report of a production outage outranks an emphatic request for a routine answer. Equally, do not discount a serious problem because the customer is polite about it.
+
+If the ticket describes no problem and asks for nothing, it is not urgent.
+[user] How do I export my data?
+
+I need to download all my data for my records. Where can I find the export feature?
+========================
+2026-08-17 16:48:24 [32mINFO    [0m continuum.llm.client - JSON mode active: schema for model gpt-4o-mini
+INFO:httpx2:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx2:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-17 16:48:24 [32mINFO    [0m continuum.agent.execution.executor - ✅ structured_output ready for agent priority (PriorityOutput)
+2026-08-17 16:48:24 [32mINFO    [0m continuum.agent.execution.executor - ✅ structured_output ready for agent classifier (ClassificationOutput)
+2026-08-17 16:48:24 [32mINFO    [0m continuum.agent.execution.message_builder - 🔍 AGENT MEMORY CONFIG: search_memories=True, store_memories=True, search_scope=MemoryScope.USER, store_scope=MemoryScope.USER, search_limit=5
+2026-08-17 16:48:24 [32mINFO    [0m continuum.agent.execution.message_builder - ===== FINAL PROMPT [resolution] =====
+[system] You are the automated first-line responder for customer support tickets. You receive a ticket along with its assigned category and priority, and you decide whether it can be closed with a reply or must go to a human.
+
+Set resolved to true only when you can fully answer from general product knowledge alone — how a feature works, where to find a setting, what a policy says, or acknowledging feedback that needs no action.
+
+Set resolved to false whenever answering would require something you do not have: access to this customer's account or billing records, authority to issue a refund or credit, the ability to change system state, or an engineering fix. Also set it to false if the ticket is too vague to answer without guessing. In that case, state briefly what is missing and why a human is needed. Do not invent account details, transaction records, or specific settings you cannot verify.
+
+Write replies directly to the customer: plain, specific, and free of placeholder text.
+[user] How do I export my data?
+
+I need to download all my data for my records. Where can I find the export feature?
+
+Category: general
+Priority: low
+========================
+2026-08-17 16:48:24 [32mINFO    [0m continuum.llm.client - JSON mode active: schema for model gpt-4o-mini
+INFO:httpx2:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-17 16:48:26 [32mINFO    [0m continuum.agent.execution.executor - ✅ structured_output ready for agent resolution (ResolutionOutput)
+
+--- ticket 4: resolved ---
+  received     ticket received
+  classified   classifier output validated
+  prioritized  priority output validated
+  resolved     resolution agent resolved the ticket
+  -> general / low (confidence 0.9)
+2026-08-17 16:48:26 [32mINFO    [0m continuum.agent.runner - Dispatching workflow agent 'triage' to its execute() entry point
+2026-08-17 16:48:26 [32mINFO    [0m continuum.agent.execution.message_builder - 🔍 AGENT MEMORY CONFIG: search_memories=True, store_memories=True, search_scope=MemoryScope.USER, store_scope=MemoryScope.USER, search_limit=5
+2026-08-17 16:48:26 [32mINFO    [0m continuum.agent.execution.message_builder - ===== FINAL PROMPT [classifier] =====
+[system] You triage inbound customer support tickets for a SaaS product. Given a ticket title and description, assign exactly one category and a confidence score.
+
+Classify on what the customer is asking you to do, not on which system or feature they happen to mention. A ticket can name an API, a dashboard, or a credit card without that being the subject of the request.
+
+When two categories are genuinely defensible, choose the one matching the customer's goal and lower your confidence to reflect the ambiguity. Confidence is a real signal, not a formality: tickets below 0.7 are routed to a human rather than answered automatically. Reserve values above 0.9 for tickets that fit one category unambiguously, and use 0.5-0.7 when the ticket is vague, empty, or could reasonably be read two ways.
+[user] Love your product!
+
+Just wanted to say the new dashboard update is amazing. Great work team!
+========================
+2026-08-17 16:48:26 [32mINFO    [0m continuum.llm.client - JSON mode active: schema for model gpt-4o-mini
+2026-08-17 16:48:26 [32mINFO    [0m continuum.agent.execution.message_builder - 🔍 AGENT MEMORY CONFIG: search_memories=True, store_memories=True, search_scope=MemoryScope.USER, store_scope=MemoryScope.USER, search_limit=5
+2026-08-17 16:48:26 [32mINFO    [0m continuum.agent.execution.message_builder - ===== FINAL PROMPT [priority] =====
+[system] You assign urgency to inbound customer support tickets for a SaaS product. Given a ticket title and description, assign exactly one priority level.
+
+Judge urgency by business impact and time sensitivity: what is broken, how many people it blocks, and whether money or data is at risk right now.
+
+Tone is not evidence. Words like URGENT, ASAP, or immediately raise priority only when the ticket also describes something that is actually broken or time-critical. A calm report of a production outage outranks an emphatic request for a routine answer. Equally, do not discount a serious problem because the customer is polite about it.
+
+If the ticket describes no problem and asks for nothing, it is not urgent.
+[user] Love your product!
+
+Just wanted to say the new dashboard update is amazing. Great work team!
+========================
+2026-08-17 16:48:26 [32mINFO    [0m continuum.llm.client - JSON mode active: schema for model gpt-4o-mini
+INFO:httpx2:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-17 16:48:26 [32mINFO    [0m continuum.agent.execution.executor - ✅ structured_output ready for agent priority (PriorityOutput)
+INFO:httpx2:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-17 16:48:27 [32mINFO    [0m continuum.agent.execution.executor - ✅ structured_output ready for agent classifier (ClassificationOutput)
+2026-08-17 16:48:27 [32mINFO    [0m continuum.agent.execution.message_builder - 🔍 AGENT MEMORY CONFIG: search_memories=True, store_memories=True, search_scope=MemoryScope.USER, store_scope=MemoryScope.USER, search_limit=5
+2026-08-17 16:48:27 [32mINFO    [0m continuum.agent.execution.message_builder - ===== FINAL PROMPT [resolution] =====
+[system] You are the automated first-line responder for customer support tickets. You receive a ticket along with its assigned category and priority, and you decide whether it can be closed with a reply or must go to a human.
+
+Set resolved to true only when you can fully answer from general product knowledge alone — how a feature works, where to find a setting, what a policy says, or acknowledging feedback that needs no action.
+
+Set resolved to false whenever answering would require something you do not have: access to this customer's account or billing records, authority to issue a refund or credit, the ability to change system state, or an engineering fix. Also set it to false if the ticket is too vague to answer without guessing. In that case, state briefly what is missing and why a human is needed. Do not invent account details, transaction records, or specific settings you cannot verify.
+
+Write replies directly to the customer: plain, specific, and free of placeholder text.
+[user] Love your product!
+
+Just wanted to say the new dashboard update is amazing. Great work team!
+
+Category: feedback
+Priority: low
+========================
+2026-08-17 16:48:27 [32mINFO    [0m continuum.llm.client - JSON mode active: schema for model gpt-4o-mini
+INFO:httpx2:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-17 16:48:28 [32mINFO    [0m continuum.agent.execution.executor - ✅ structured_output ready for agent resolution (ResolutionOutput)
+
+--- ticket 5: resolved ---
+  received     ticket received
+  classified   classifier output validated
+  prioritized  priority output validated
+  resolved     resolution agent resolved the ticket
+  -> feedback / low (confidence 0.9)

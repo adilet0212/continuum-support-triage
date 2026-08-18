@@ -1,0 +1,43 @@
+2026-08-17 16:37:09 [32mINFO    [0m continuum.llm.callbacks - Observability not configured or disabled
+2026-08-17 16:37:09 [32mINFO    [0m continuum.agent.runner - Dispatching workflow agent 'triage' to its execute() entry point
+2026-08-17 16:37:09 [32mINFO    [0m continuum.agent.execution.message_builder - 🔍 AGENT MEMORY CONFIG: search_memories=True, store_memories=True, search_scope=MemoryScope.USER, store_scope=MemoryScope.USER, search_limit=5
+2026-08-17 16:37:10 [32mINFO    [0m continuum.agent.execution.message_builder - ===== FINAL PROMPT [classifier] =====
+[system] You triage inbound customer support tickets for a SaaS product. Given a ticket title and description, assign exactly one category and a confidence score.
+
+Classify on what the customer is asking you to do, not on which system or feature they happen to mention. A ticket can name an API, a dashboard, or a credit card without that being the subject of the request.
+
+When two categories are genuinely defensible, choose the one matching the customer's goal and lower your confidence to reflect the ambiguity. Confidence is a real signal, not a formality: tickets below 0.7 are routed to a human rather than answered automatically. Reserve values above 0.9 for tickets that fit one category unambiguously, and use 0.5-0.7 when the ticket is vague, empty, or could reasonably be read two ways.
+[user] Synthetic fault-injection ticket
+
+zzz malformed ticket zzz
+========================
+2026-08-17 16:37:10 [32mINFO    [0m continuum.llm.client - JSON mode active: schema for model mock/gpt-4o-mini
+2026-08-17 16:37:10 [32mINFO    [0m continuum.llm.client - JSON mode active: schema for model mock/gpt-4o-mini
+2026-08-17 16:37:10 [33mWARNING [0m continuum.agent.execution.executor - ⚠️ structured_output unavailable for agent classifier: response did not match schema ClassificationOutput: 1 validation error for ClassificationOutput
+category
+  Input should be 'billing', 'technical', 'account', 'general' or 'feedback' [type=enum, input_value='urgent_thing', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/enum
+2026-08-17 16:37:10 [32mINFO    [0m continuum.agent.execution.message_builder - 🔍 AGENT MEMORY CONFIG: search_memories=True, store_memories=True, search_scope=MemoryScope.USER, store_scope=MemoryScope.USER, search_limit=5
+2026-08-17 16:37:10 [32mINFO    [0m continuum.agent.execution.message_builder - ===== FINAL PROMPT [priority] =====
+[system] You assign urgency to inbound customer support tickets for a SaaS product. Given a ticket title and description, assign exactly one priority level.
+
+Judge urgency by business impact and time sensitivity: what is broken, how many people it blocks, and whether money or data is at risk right now.
+
+Tone is not evidence. Words like URGENT, ASAP, or immediately raise priority only when the ticket also describes something that is actually broken or time-critical. A calm report of a production outage outranks an emphatic request for a routine answer. Equally, do not discount a serious problem because the customer is polite about it.
+
+If the ticket describes no problem and asks for nothing, it is not urgent.
+[user] Synthetic fault-injection ticket
+
+zzz malformed ticket zzz
+========================
+2026-08-17 16:37:10 [32mINFO    [0m continuum.llm.client - JSON mode active: schema for model mock/gpt-4o-mini
+2026-08-17 16:37:10 [32mINFO    [0m continuum.agent.execution.executor - ✅ structured_output ready for agent priority (PriorityOutput)
+WARNING:src.pipeline:classification validation failed for ticket 99: response did not match schema ClassificationOutput: 1 validation error for ClassificationOutput
+category
+  Input should be 'billing', 'technical', 'account', 'general' or 'feedback' [type=enum, input_value='urgent_thing', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/enum
+
+--- ticket 99: escalated ---
+  received     ticket received
+  prioritized  priority output validated
+  escalated    classification or priority failed schema validation

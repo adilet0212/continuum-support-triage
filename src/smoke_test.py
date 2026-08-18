@@ -11,4 +11,5 @@ async def main():
     response = await runner.run(agent, "Hi!")
     print(response.content)
 
-asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(main())
